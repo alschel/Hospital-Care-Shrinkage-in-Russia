@@ -1,4 +1,6 @@
-# Preprocessing
+# Hospital Care Shrinkage in Russia
+
+# 01. Preprocessing: clean and aggregate by functional urban areas
 
 library(tidyr)
 library(dplyr)
@@ -8,7 +10,7 @@ library(dplyr)
 # ================
 
 # 1.1. Read data on bed numbers, hospitals, and population
-beds <- read.csv2("data/Beds.csv", stringsAsFactors = F)
+beds <- read.csv2("data/raw/Beds.csv", stringsAsFactors = F)
 # Clean the data, keep only observations with full time serie, and convert to tidy format
 beds %>% 
   select(FedDistrict:X2013) %>%
@@ -23,7 +25,7 @@ beds %>%
          City = stringr::str_replace_all(City, " $", "")) %>%
   filter(!is.na(Beds)) -> beds
 
-# hospitals <- read.csv2("data/Hospitals.csv", stringsAsFactors = F)
+# hospitals <- read.csv2("data/raw/Hospitals.csv", stringsAsFactors = F)
 # hospitals %>%
 #   select(FedDistrict:X2013) %>% 
 #   gather(Year, Hospitals, starts_with("X")) %>% 
@@ -35,7 +37,7 @@ beds %>%
 #          City = stringr::str_replace_all(City, " $", "")) %>%
 #   filter(!is.na(Hospitals)) -> hospitals
 
-population <- read.csv2("data/Population.csv", stringsAsFactors = F)
+population <- read.csv2("data/raw/Population.csv", stringsAsFactors = F)
 population %>%
   select(FedDistrict:X2013) %>% 
   gather(Year, Population, starts_with("X")) %>% 
@@ -61,7 +63,7 @@ data %>%
   mutate(City = stringr::str_replace_all(City, " \\((.*?)\\)", "")) -> data
 
 # 1.2. Read data on FUA
-fua <- read.csv2("data/DARIUSdatabaseCottineau2014EN.csv", dec = ".",  stringsAsFactors = F) %>% 
+fua <- read.csv2("data/processed/DARIUSdatabaseCottineau2014EN.csv", dec = ".",  stringsAsFactors = F) %>% 
   select(ROKATO:X2010)
 
 fua %>% 
